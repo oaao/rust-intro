@@ -1,9 +1,11 @@
 use std::io;
-// from std import io, in familiar neanderthal
+	// from std import io, in familiar neanderthal
+use std::cmp::Ordering;
+	// Ordering is also an enum
 use rand::Rng;
-// Rng is a trait and defines methods that need to be in scope for us to use them
-// paired with their usage below, i don't fully understand this yet. 
-// is it similar to implicit importing?
+	// Rng is a trait and defines methods that need to be in scope for us to use them
+	// paired with their usage below, i don't fully understand this yet. 
+	// is it similar to implicit importing?
 
 fn main() {
 
@@ -29,12 +31,22 @@ fn main() {
 			// references are immutable by default - &mut guess makes a mutable reference
 			// whereas &guess would make an immutable reference
 		.expect("something went wrong - failed to read line");
-		// i.e. calling io::Result.expect(self, msg: &str) instead of writing error handling
-		// if Ok, returns the Ok value and consumes self
-		// if Err, causes panic and displays the message passed to .expect()
+			// i.e. calling io::Result.expect(self, msg: &str) instead of writing error handling
+			// if Ok, returns the Ok value and consumes self
+			// if Err, causes panic and displays the message passed to .expect()
 
 	println!("your guess was: {}", guess);
-	// fairly familiar string interpolation
+		// fairly familiar string interpolation
+
+	match guess.cmp(&secret_num) {
+			// match expression's arms have a) a pattern, b) code to run if that pattern is matched
+			// cmp method compares two values and can be called on anything that can be compared
+			// Ordering enum has Less, Greater, Equal, and method implementations
+		Ordering::Less    => println!("too small!"),
+		Ordering::Greater => println!("too big!"),
+		Ordering::Equal   => println!("you win!"),
+	}
+
 	println!("the secret number was: {}", secret_num);
 
 }
