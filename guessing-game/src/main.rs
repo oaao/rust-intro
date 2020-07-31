@@ -35,6 +35,17 @@ fn main() {
 			// if Ok, returns the Ok value and consumes self
 			// if Err, causes panic and displays the message passed to .expect()
 
+	let guess: u32 = guess
+		.trim()
+		.parse()
+		.expect("your guess must be a number.");
+		// shadows the prior guess var, basically reassigning to a var of the same name
+		// trims whitespace on the String guess (e.g. the \n from pressing enter on input),
+		// then parses a string into the provided type (here, a u32 number)
+		// bc parse is so general it can cause problems with type inference,
+		// so sometimes instead of let x: u32 = "5".parse();, one will see "let x = parse::<u32>();"
+		// finally, we "handle" Result[Ok, Err] with an expect() as before
+
 	println!("your guess was: {}", guess);
 		// fairly familiar string interpolation
 
