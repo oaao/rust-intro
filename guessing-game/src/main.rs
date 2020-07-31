@@ -18,7 +18,7 @@ fn main() {
 
 	loop {
 
-		println!("Input your guess.");
+		println!("Guess a number.");
 
 		let mut guess = String::new();
 			// let x = 1; // creates immutable var
@@ -36,28 +36,28 @@ fn main() {
 			.expect("Something went wrong - failed to read line");
 				// i.e. calling io::Result.expect(self, msg: &str) instead of writing error handling
 				// if Ok, returns the Ok value and consumes self
-				// if Err, causes panic and displays the message passed to .expect()
+				// if Err, causes panic (crashes) and displays the message passed to .expect()
 
-		let guess: u32 = guess
-			.trim()
-			.parse()
-			.expect("your guess must be a number.");
+		let guess: u32 = match guess.trim().parse() {
+			Ok(num) => num,
+			Err(_)  => continue,
+		};
 			// shadows the prior guess var, basically reassigning to a var of the same name
 			// trims whitespace on the String guess (e.g. the \n from pressing enter on input),
 			// then parses a string into the provided type (here, a u32 number)
 			// bc parse is so general it can cause problems with type inference,
 			// so sometimes instead of let x: u32 = "5".parse();, one will see "let x = parse::<u32>();"
-			// finally, we "handle" Result[Ok, Err] with an expect() as before
+			// finally, we handle Result[OK, Err] by ignoring invalid guesses and asking for another.
 
-		println!("You guessed {}.", guess);
-			// fairly familiar string interpolation
+		let confirm = format!("You guessed {}.", guess);
 
 		match guess.cmp(&secret_num) {
+
 			// match expression's arms have a) a pattern, b) code to run if that pattern is matched
 			// cmp method compares two values and can be called on anything that can be compared
 			// Ordering enum has Less, Greater, Equal, and method implementations
-			Ordering::Less    => println!("Too small!"),
-			Ordering::Greater => println!("Too big!"),
+			Ordering::Less    => println!("{} Too small!", confirm),
+			Ordering::Greater => println!("{} Too big!",   confirm),
 			Ordering::Equal   => {
 				println!("You got it! The secret number was {}.", secret_num);
 				break;
