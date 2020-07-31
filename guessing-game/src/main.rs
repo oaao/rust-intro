@@ -14,7 +14,8 @@ fn main() {
 		// thread_rng() is local to current exec thread, and seeded by OS
 		// gen_range is a method defined by Rng trait 
 		// note that gen_range is inclusive on lower bound and exclusive on upper bound
-	println!("DEBUG -- the secret number is: {}", secret_num);
+
+	// println!("DEBUG -- the secret number is: {}", secret_num);
 
 	loop {
 
@@ -50,6 +51,8 @@ fn main() {
 			// finally, we handle Result[OK, Err] by ignoring invalid guesses and asking for another.
 
 		let confirm = format!("You guessed {}.", guess);
+		// don't know enough about allocation & ownership to declare this string in further detail
+		// we'll do it this way for now: I don't own / can't change the string, nor do I want to
 
 		match guess.cmp(&secret_num) {
 
